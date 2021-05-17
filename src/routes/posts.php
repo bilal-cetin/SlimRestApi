@@ -72,3 +72,37 @@ $app->get('/comments', function (Request $request, Response $response) {
    $db = null;
 });
 
+//Comments who belongs to post id
+$app->get('/posts/{post_id}/comments', function (Request $request, Response $response) {
+
+   $post_id = $request->getAttribute("post_id");
+   $db = new Db();
+
+   try{
+      $db = $db->connect();
+      
+      $pcomments = $db->query("SELECT * FROM comments WHERE postId = $post_id")->fetchAll(PDO::FETCH_OBJ);
+
+      return $response
+         ->withStatus(200)
+         ->withHeader("Content-Type", 'application/json')
+         ->withJson($pcomments);
+
+
+
+   }catch(PDOException $e){
+      return $response->withJson(
+         array(
+            "error" => array(
+               "text" => $e->getMessage(),
+               "code" => $e->getCode()
+            )
+         )
+      );
+   }
+
+
+
+   $db = null;
+});
+

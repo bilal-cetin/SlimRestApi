@@ -5,5 +5,24 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 $app = new \Slim\App;
 
 $app->get('/posts', function (Request $request, Response $response) {
-   echo " Postlarrr";
+
+   $db = new Db();
+
+   try{
+      $db = $db->connect();
+      echo "herşey yolunda";
+   }catch(PDOException $e){
+      return $response->withJson(
+         array(
+            "error" => array(
+               "text" => $e->getMessage(),
+               "code" => $e->getCode()
+            )
+         )
+      );
+   }
+
+
+
+   $db = null;
 });

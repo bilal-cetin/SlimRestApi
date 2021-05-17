@@ -10,7 +10,16 @@ $app->get('/posts', function (Request $request, Response $response) {
 
    try{
       $db = $db->connect();
-      echo "herşey yolunda";
+      
+      $posts = $db->query("SELECT * FROM posts")->fetchAll(PDO::FETCH_OBJ);
+
+      return $response
+         ->withStatus(200)
+         ->withHeader("Content-Type", 'application/json')
+         ->withJson($posts);
+
+
+
    }catch(PDOException $e){
       return $response->withJson(
          array(

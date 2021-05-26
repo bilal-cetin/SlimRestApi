@@ -4,7 +4,7 @@ class Db {
     private $dbhost = "localhost";
     private $dbuser = "root";
     private $dbpass = "root";
-    private $dbname = "enforsec";
+    private $dbname = "restapi";
 
     public function connect(){
         $mysql_connection = "mysql:host=$this->dbhost;dbname=$this->dbname;charset=utf8";
